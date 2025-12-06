@@ -3,6 +3,7 @@
 * ellmer will now distinguish text content from thinking content while streaming, allowing downstream packages like shinychat to provide specific UI for thinking content (@simonpcouch, #909).
 * `chat_github()` now uses `chat_openai_compatible()` for improved compatibility, and `models_github()` now supports custom `base_url` configuration (@D-M4rk, #877).
 * `chat_ollama()` now contains a slot for `top_k` within the `params` argument (@frankiethull).
+* `chat_github()` and other OpenAI-compatible providers now robustly handle rate limit errors (HTTP 429) where the API returns a text body despite sending a JSON content-type header. This prevents crashes and allows the built-in retry logic to function correctly (@D-M4rk, #901)
 
 # ellmer 0.4.0
 
