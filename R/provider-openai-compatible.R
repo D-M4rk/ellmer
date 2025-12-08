@@ -153,13 +153,7 @@ method(base_request_error, ProviderOpenAICompatible) <- function(
     req
 ) {
   req_error(req, body = function(resp) {
-    # Default to treating as text
-    is_json <- FALSE
-    try({
-      if (resp_content_type(resp) == "application/json") {
-        is_json <- TRUE
-      }
-    }, silent = TRUE)
+    is_json <- identical(resp_content_type(resp), "application/json")
 
     if (is_json) {
       # Try parsing JSON, but fall back to text if it fails (e.g. 429 text body)
