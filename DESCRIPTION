@@ -109,6 +109,7 @@ Collate:
     'provider-claude-tools.R'
     'provider-google.R'
     'provider-cloudflare.R'
+    'provider-copilot.R'
     'provider-databricks.R'
     'provider-deepseek.R'
     'provider-github.R'

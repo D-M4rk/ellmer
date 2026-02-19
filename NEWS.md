@@ -1,5 +1,8 @@
 # ellmer (development version)
 
+* New `chat_copilot()` connects to the GitHub Copilot endpoint, giving access to
+  Claude, GPT, and Gemini models with a GitHub Copilot subscription. Use
+  `models_copilot()` to list the models available to your account.
 * Fixed a timing-dependent failure in the OpenTelemetry metric tests on busy machines (#1223).
 
 # ellmer 0.5.1
