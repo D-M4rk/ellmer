@@ -99,6 +99,7 @@ Collate:
     'provider-claude.R'
     'provider-google.R'
     'provider-cloudflare.R'
+    'provider-copilot.R'
     'provider-databricks.R'
     'provider-deepseek.R'
     'provider-github.R'
