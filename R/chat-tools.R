@@ -205,7 +205,22 @@ tool_request_args <- function(request) {
   }
 
   args <- convert_from_type(args, tool@arguments)
-  args[!map_lgl(args, is.null)]
+
+  # Drop arguments that are NULL or empty (length 0) on optional parameters.
+  # Some models (e.g. Claude) send [] for optional array params instead of null
+  # or omitting the field, which results in list()/character(0)/numeric(0) after
+  # conversion. For optional params, length-0 values should be treated as "not
+  # provided" and dropped so the tool function's default value is used instead.
+  props <- tool@arguments@properties
+  nms <- names(args)
+  keep <- vapply(seq_along(args), function(i) {
+    val <- args[[i]]
+    if (is.null(val)) return(FALSE)
+    prop <- props[[nms[[i]]]]
+    if (!is.null(prop) && !prop@required && length(val) == 0) return(FALSE)
+    TRUE
+  }, logical(1))
+  args[keep]
 }
 
 maybe_on_tool_request <- function(

@@ -5,6 +5,11 @@
   models with large context windows. Requires an active GitHub Copilot
   subscription. Use `models_copilot()` to list available models.
 
+* Tool calls now normalize empty arrays (`[]`) to `NULL` for optional
+  parameters. Some models (notably Claude) send `[]` instead of `null` or
+  omitting optional array arguments, which caused tool functions to receive
+  length-0 values instead of their defaults.
+
 * ellmer will now distinguish text content from thinking content while streaming, allowing downstream packages like shinychat to provide specific UI for thinking content (@simonpcouch, #909).
 * `chat_github()` now uses `chat_openai_compatible()` for improved compatibility, and `models_github()` now supports custom `base_url` configuration (@D-M4rk, #877).
 * `chat_ollama()` now contains a slot for `top_k` within the `params` argument (@frankiethull).

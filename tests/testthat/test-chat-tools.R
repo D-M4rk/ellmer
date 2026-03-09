@@ -747,6 +747,61 @@ test_that("invoke_tools_async() can invoke tools with args with default values",
   expect_equal(out$z, "z")
 })
 
+test_that("invoke_tools() drops empty arrays on optional params", {
+  out <- NULL
+  tool <- tool(
+    function(x, items = NULL) out <<- list(x = x, items = items),
+    description = "A tool",
+    arguments = list(
+      x = type_string(),
+      items = type_array(type_string(), required = FALSE)
+    )
+  )
+
+  # Model sends [] for optional array param (e.g. Claude via Copilot)
+  req <- ContentToolRequest(
+    id = "x",
+    name = "my_tool",
+    arguments = list(x = "hello", items = list()),
+    tool = tool
+  )
+
+  args <- tool_request_args(req)
+  expect_equal(args$x, "hello")
+  expect_null(args$items)
+
+  res <- invoke_tool(req)
+  expect_equal(out$x, "hello")
+  expect_null(out$items)
+})
+
+test_that("invoke_tools() keeps empty arrays on required params", {
+  out <- NULL
+  tool <- tool(
+    function(x, items) out <<- list(x = x, items = items),
+    description = "A tool",
+    arguments = list(
+      x = type_string(),
+      items = type_array(type_string())
+    )
+  )
+
+  req <- ContentToolRequest(
+    id = "x",
+    name = "my_tool",
+    arguments = list(x = "hello", items = list()),
+    tool = tool
+  )
+
+  args <- tool_request_args(req)
+  expect_equal(args$x, "hello")
+  expect_equal(args$items, character())
+
+  res <- invoke_tool(req)
+  expect_equal(out$x, "hello")
+  expect_equal(out$items, character())
+})
+
 test_that("tool error warnings", {
   errors <- list(
     ContentToolResult(
