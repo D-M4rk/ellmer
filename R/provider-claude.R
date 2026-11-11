@@ -1156,7 +1156,8 @@ has_claude_structured_output <- function(model) {
   # The name segment is restricted to [a-z] so that version-first names
   # (claude-3-5-sonnet-*, claude-4-sonnet-*) don't match. The pattern isn't
   # anchored to the start so that Bedrock ids (anthropic.claude-*,
-  # us.anthropic.claude-*) match too.
+  # us.anthropic.claude-*) match too. Versions may be separated by "." as well
+  # as "-" because GitHub Copilot ids use dots (claude-sonnet-4.5).
   # https://platform.claude.com/docs/en/build-with-claude/structured-outputs
-  grepl("claude-[a-z]+-(4-[5-9]|[5-9]|[1-9]\\d)(-|$)", model)
+  grepl("claude-[a-z]+-(4[-.][5-9]|[5-9]|[1-9]\\d)([-.]|$)", model)
 }

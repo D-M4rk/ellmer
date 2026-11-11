@@ -79,7 +79,10 @@ test_that("has_claude_structured_output() matches Claude 4.5+ and 5+ models", {
     "anthropic.claude-sonnet-5",
     "us.anthropic.claude-sonnet-5-5-v1:0",
     "global.anthropic.claude-opus-5-5-v1:0",
-    "anthropic.claude-sonnet-4-5-20250929-v1:0"
+    "anthropic.claude-sonnet-4-5-20250929-v1:0",
+    # GitHub Copilot model ids
+    "claude-haiku-4.5",
+    "claude-sonnet-5.5"
   )))
   expect_all_equal(
     has_claude_structured_output(c(
@@ -87,7 +90,9 @@ test_that("has_claude_structured_output() matches Claude 4.5+ and 5+ models", {
       "claude-3-5-sonnet-20241022",
       "claude-3-7-sonnet-20250219",
       "claude-4-sonnet-20250514",
-      "anthropic.claude-3-5-sonnet-20240620-v1:0"
+      "anthropic.claude-3-5-sonnet-20240620-v1:0",
+      "claude-sonnet-4",
+      "claude-opus-4.1"
     )),
     FALSE
   )
