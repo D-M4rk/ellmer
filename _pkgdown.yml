@@ -51,6 +51,7 @@ reference:
     providers are especially welcome.
   contents:
   - chat_cloudflare
+  - chat_copilot
   - chat_groq
   - chat_huggingface
   - chat_lmstudio

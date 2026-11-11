@@ -7,6 +7,7 @@
 \usage{
 chat_copilot(
   system_prompt = NULL,
+  base_url = NULL,
   model = NULL,
   credentials = NULL,
   params = NULL,
@@ -15,16 +16,19 @@ chat_copilot(
   echo = NULL
 )
 
-models_copilot(credentials = NULL)
+models_copilot(base_url = NULL, credentials = NULL)
 }
 \arguments{
 \item{system_prompt}{A system prompt to set the behavior of the assistant.}
 
-\item{model}{The model to use. Run \code{\link[=models_copilot]{models_copilot()}} to see available
-models on your account. Defaults to \code{"claude-sonnet-4.5"}.}
+\item{base_url}{The base URL to the endpoint. The default, \code{NULL}, uses the
+endpoint that GitHub reports for your account.}
+
+\item{model}{The model to use. Run \code{\link[=models_copilot]{models_copilot()}} to see the models
+available to your account. Defaults to \code{"claude-sonnet-5.5"}.}
 
 \item{credentials}{A zero-argument function returning authentication
-headers, or \code{NULL} to use ambient Copilot credentials from your editor.}
+headers, or \code{NULL} to use the Copilot sign-in stored by your editor.}
 
 \item{params}{Common model parameters, usually created by \code{\link[=params]{params()}}.}
 
@@ -48,15 +52,21 @@ Note this only affects the \code{chat()} method.}
 A \link{Chat} object.
 }
 \description{
-Uses the GitHub Copilot endpoint (\code{api.githubcopilot.com}) which provides
-access to a wide range of models including Claude, GPT, and Gemini with
-large context windows. Requires an active GitHub Copilot subscription.
+Uses the endpoint that GitHub Copilot editors talk to, which provides access
+to a wide range of models including Claude, GPT, and Gemini. Requires an
+active GitHub Copilot subscription.
 
-Authentication is handled automatically using credentials stored by any
-Copilot-enabled editor (VS Code, Positron, JetBrains, Neovim, etc.).
+Authentication reuses the sign-in stored by a Copilot-enabled editor in
+\code{github-copilot/apps.json}. The API host is taken from your account, so
+Copilot Business and Enterprise seats are routed to their own endpoint.
 
-Note that \code{api.githubcopilot.com} is an undocumented endpoint — it may
-change without notice.
+Note that this endpoint is undocumented and may change without notice.
+
+Claude models are sent to Copilot's Anthropic-format endpoint, in the same
+way as \code{\link[=chat_anthropic]{chat_anthropic()}}, because Copilot's OpenAI-format endpoint garbles
+their conversation history after tool calls. All other models use the
+OpenAI-format endpoint, in the same way as \code{\link[=chat_openai_compatible]{chat_openai_compatible()}}.
+Switching model with \verb{$set_model()} switches endpoint as needed.
 }
 \examples{
 \dontrun{
@@ -76,12 +86,14 @@ Other chatbots:
 \code{\link{chat_google_gemini}()},
 \code{\link{chat_groq}()},
 \code{\link{chat_huggingface}()},
+\code{\link{chat_lmstudio}()},
 \code{\link{chat_mistral}()},
 \code{\link{chat_ollama}()},
 \code{\link{chat_openai}()},
 \code{\link{chat_openai_compatible}()},
 \code{\link{chat_openrouter}()},
 \code{\link{chat_perplexity}()},
-\code{\link{chat_portkey}()}
+\code{\link{chat_portkey}()},
+\code{\link{chat_posit}()}
 }
 \concept{chatbots}
